@@ -14,7 +14,7 @@ public interface Build {
 		$class= filetype("class", MAKE);
 	
 	FileSelector
-		noFiles = FileSelector.ANY;
+		allFiles = FileSelector.ALL;
 	
 	Folder
 		target = new Folder();
@@ -22,4 +22,5 @@ public interface Build {
 	Production
 		javac = makes($class).from($java),
 		jar   = makes($jar).from($class);
+	
 }

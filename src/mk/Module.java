@@ -33,8 +33,8 @@ public final class Module {
 	private Type type;
 
 	
-	public Goal aside() {
-		return Goal.make(this, Location.ASIDE);
+	public Goal colocated() {
+		return Goal.make(this, Location.COLOCATED);
 	}
 	
 	public Goal flattened() {

@@ -10,11 +10,13 @@ public final class FileSelector {
 	/**
 	 * E.g. used to delete all files in a folder.
 	 */
-	public static final FileSelector ANY = new FileSelector();
+	public static final FileSelector ALL = new FileSelector();
 	
 	public static final FileSelector NONE = new FileSelector();
-	
-	public Goal in(Folder dest) {
-		return Goal.unmake(this, dest);
+
+	public Module within(Folder folder) {
+		// TODO Auto-generated method stub
+		return null;
 	}
+	
 }

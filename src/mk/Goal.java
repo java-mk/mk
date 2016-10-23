@@ -16,17 +16,17 @@ public final class Goal {
 	}
 	
 	public enum Location {
-		ASIDE,
+		COLOCATED,
 		MIRRORED, 
 		FLATTENED 
 	}
 
 	public static Goal make(Module source, Location target) {
-		return new Goal(Type.MAKE, Folder.SELF, source, target, Filetype.$, FileSelector.NONE, EMPTY_SEQ);
+		return new Goal(Type.MAKE, Folder.ROOT, source, target, Filetype.$, FileSelector.NONE, EMPTY_SEQ);
 	}
 	
-	public static Goal unmake(FileSelector deleted, Folder dest) {
-		return new Goal(Type.UNMAKE, dest, Module.EMPTY, Location.ASIDE, Filetype.$, deleted, EMPTY_SEQ);
+	public static Goal unmake(FileSelector deleted) {
+		return new Goal(Type.UNMAKE, Folder.ROOT, Module.EMPTY, Location.COLOCATED, Filetype.$, deleted, EMPTY_SEQ);
 	}
 	
 	// common
@@ -45,7 +45,7 @@ public final class Goal {
 	private final Goal[] sequence;
 
 	private Goal(Goal...sequence) {
-		this(Type.SEQUENCE, Folder.SELF, Module.EMPTY, Location.ASIDE, Filetype.$, FileSelector.NONE, sequence);
+		this(Type.SEQUENCE, Folder.ROOT, Module.EMPTY, Location.COLOCATED, Filetype.$, FileSelector.NONE, sequence);
 	}
 	
 	private Goal(Type type, Folder dest, Module source, Location target,
