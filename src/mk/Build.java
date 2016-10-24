@@ -14,7 +14,7 @@ public interface Build {
 		$class= filetype("class", MAKE);
 	
 	FileSelector
-		allFiles = FileSelector.ALL;
+		files = FileSelector.ALL;
 	
 	Folder
 		target = new Folder();

@@ -14,7 +14,24 @@ public final class FileSelector {
 	
 	public static final FileSelector NONE = new FileSelector();
 
-	public Module within(Folder folder) {
+	// can be
+	// * all files
+	// * no file
+	// * a file name pattern (incl. path; think glob)
+	// * a list patterns
+	
+	// depth?
+	
+	public static FileSelector file(String name) {
+		return null;
+	}
+	
+	public Module inSource(Folder folder) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Module inPackage(String string) {
 		// TODO Auto-generated method stub
 		return null;
 	}
