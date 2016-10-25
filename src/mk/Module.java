@@ -46,12 +46,12 @@ public final class Module {
 		return Goal.make(this, Location.MIRRORED);
 	}
 	
-	public Module dependsOn(Module dependency) {
+	public Module uses(Module... dependencies) {
 		
 		return this; // FIXME
 	}
 	
-	public Module dependsOn(FileSelector dependencies) {
+	public Module uses(FileSelector dependencies) {
 		
 		return this; // FIXME
 	}

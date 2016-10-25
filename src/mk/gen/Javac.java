@@ -1,15 +1,10 @@
 package mk.gen;
 
-import mk.Generator;
+import mk.FileSelector;
+import mk.Process;
 import mk.Task;
 
-public class Javac implements Generator {
-
-	@Override
-	public ResultCode generate(Task task) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+public class Javac implements Process {
 
 	public Javac source(int version) {
 		// TODO Auto-generated method stub
@@ -17,6 +12,12 @@ public class Javac implements Generator {
 	}
 
 	public Javac target(int version) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public FileSelector run(Task task) {
 		// TODO Auto-generated method stub
 		return null;
 	}

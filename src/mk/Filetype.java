@@ -5,7 +5,7 @@ public final class Filetype {
 	/**
 	 * In case the type is not yet determined, unknown.
 	 */
-	public static final Filetype $ = filetype("", Origin.EXTERNAL);
+	public static final Filetype VOID = filetype("").external();
 
 	static enum Origin { 
 		/**
@@ -13,10 +13,10 @@ public final class Filetype {
 		 */
 		SOURCE, 
 		/**
-		 * A generated file, like <code>.class</code> or a build
+		 * A file build by the described build, like <code>.class</code> or a
 		 * </code>.jar</code> file.
 		 */
-		MAKE,
+		BUILD,
 		/**
 		 * A file neither edited as a source not made by a build like external
 		 * </code>.jar</code> dependencies.
@@ -24,8 +24,8 @@ public final class Filetype {
 		EXTERNAL
 	} 
 	
-	public static Filetype filetype(String extension, Origin origin) {
-		return new Filetype(extension, origin);
+	public static Filetype filetype(String extension) {
+		return new Filetype(extension, Origin.SOURCE);
 	}
 	
 	public final String extension;
@@ -36,5 +36,22 @@ public final class Filetype {
 		this.extension = extension;
 		this.origin = origin;
 	}
+
+	public Filetype external() {
+		return withOrigin(Origin.EXTERNAL);
+	}
+	
+	public Filetype source() {
+		return withOrigin(Origin.SOURCE);
+	}
+	
+	public Filetype build() {
+		return withOrigin(Origin.BUILD);
+	}
+
+	private Filetype withOrigin(Origin newOrigin) {
+		return origin == newOrigin ? this : new Filetype(extension, newOrigin);
+	}
+	
 	
 }

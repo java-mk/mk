@@ -1,26 +1,21 @@
 package mk;
 
 import static mk.Filetype.filetype;
-import static mk.Filetype.Origin.MAKE;
-import static mk.Filetype.Origin.SOURCE;
-import static mk.Production.makes;
+import static mk.Production.is;
 
 public interface Build {
 
 	Filetype
-		$     = Filetype.$,
-		$java = filetype("java", SOURCE),
-		$jar  = filetype("jar", MAKE),
-		$class= filetype("class", MAKE);
-	
-	FileSelector
-		files = FileSelector.ALL;
+		__    = Filetype.VOID,
+		_java = filetype("java"),
+		_jar  = filetype("jar").build(),
+		_class= filetype("class").build();
 	
 	Folder
 		target = new Folder();
 	
 	Production
-		javac = makes($class).from($java),
-		jar   = makes($jar).from($class);
+		javac = is(_class).to(_java),
+		jar   = is(_jar).to(_class);
 	
 }

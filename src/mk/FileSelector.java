@@ -7,33 +7,55 @@ package mk;
  */
 public final class FileSelector {
 
-	/**
-	 * E.g. used to delete all files in a folder.
-	 */
-	public static final FileSelector ALL = new FileSelector();
-	
-	public static final FileSelector NONE = new FileSelector();
-
 	// can be
-	// * all files
+	// * all files (of a type)
 	// * no file
-	// * a file name pattern (incl. path; think glob)
+	// * a file name pattern (incl. path; of a type)
 	// * a list patterns
 	
 	// depth?
+	// base folder (all other filders are relative!)
+	// file type are always expressed using Filetype - not by using patterns! this is required so that planing can infer what inputs might be generated first.
 	
-	public static FileSelector file(String name) {
+	public static final class FilePattern {
+		public Folder base;
+		public String path;
+		public Filetype type;
+		public int depth;
+	}
+	
+	public static final FileSelector noFile = new FileSelector(new FilePattern[0]);
+
+	public static FileSelector allOf(Filetype type) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 	
-	public Module inSource(Folder folder) {
+	public static FileSelector allIn(Folder base) {
+		
+		return null;
+	}
+	
+	public static FileSelector file(String name, Filetype extension) {
+		return null;
+	}
+	
+	public FilePattern[] patterns;
+	
+	private FileSelector(FilePattern[] patterns) {
+		super();
+		this.patterns = patterns;
+	}
+
+	public Module in(Folder folder) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Module inPackage(String string) {
+	public Module in(Unit unit) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	
 }

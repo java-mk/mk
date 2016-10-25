@@ -22,11 +22,11 @@ public final class Goal {
 	}
 
 	public static Goal make(Module source, Location target) {
-		return new Goal(Type.MAKE, Folder.ROOT, source, target, Filetype.$, FileSelector.NONE, EMPTY_SEQ);
+		return new Goal(Type.MAKE, Folder.ROOT, source, target, Filetype.VOID, FileSelector.noFile, EMPTY_SEQ);
 	}
 	
 	public static Goal unmake(FileSelector deleted) {
-		return new Goal(Type.UNMAKE, Folder.ROOT, Module.EMPTY, Location.COLOCATED, Filetype.$, deleted, EMPTY_SEQ);
+		return new Goal(Type.UNMAKE, Folder.ROOT, Module.EMPTY, Location.COLOCATED, Filetype.VOID, deleted, EMPTY_SEQ);
 	}
 	
 	// common
@@ -45,7 +45,7 @@ public final class Goal {
 	private final Goal[] sequence;
 
 	private Goal(Goal...sequence) {
-		this(Type.SEQUENCE, Folder.ROOT, Module.EMPTY, Location.COLOCATED, Filetype.$, FileSelector.NONE, sequence);
+		this(Type.SEQUENCE, Folder.ROOT, Module.EMPTY, Location.COLOCATED, Filetype.VOID, FileSelector.noFile, sequence);
 	}
 	
 	private Goal(Type type, Folder dest, Module source, Location target,

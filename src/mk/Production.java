@@ -2,26 +2,26 @@ package mk;
 
 public final class Production {
 
-	public static Production makes(Filetype target) {
-		return new Production(Filetype.$, target, null);
+	public static Production is(Filetype source) {
+		return new Production(source, Filetype.VOID, null);
 	}
 	
 	public final Filetype source;
 	public final Filetype target;
-	public final Generator process;
+	public final Process process;
 
-	private Production(Filetype source, Filetype target, Generator process) {
+	private Production(Filetype source, Filetype target, Process process) {
 		super();
 		this.source = source;
 		this.target = target;
 		this.process = process;
 	}
 
-	public Production from(Filetype source) {
+	public Production to(Filetype target) {
 		return new Production(source, target, process);
 	}
 	
-	public Production using(Generator process) {
+	public Production by(Process process) {
 		return new Production(source, target, process);
 	}
 	
