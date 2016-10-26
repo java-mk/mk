@@ -19,4 +19,6 @@ public final class Unit {
 	// because a unit does not refer to one exact package but everything with it including subpackages. 
 	// also package is very java specific.
 	
+	// use String[] segs;
+	// add int level() { return segs.length; }
 }
