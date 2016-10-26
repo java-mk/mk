@@ -13,13 +13,14 @@ public final class Filetype {
 		 */
 		SOURCE, 
 		/**
-		 * A file build by the described build, like <code>.class</code> or a
-		 * </code>.jar</code> file.
+		 * A file that is present as a result of a build goal of the described build, 
+		 * like <code>.class</code> or a </code>.jar</code> file.
 		 */
 		BUILD,
 		/**
-		 * A file neither edited as a source not made by a build like external
-		 * </code>.jar</code> dependencies.
+		 * A file neither edited as a source not made present by a build goal 
+		 * but that are simply expected to exist. 
+		 * For example external dependences checked into source control.
 		 */
 		EXTERNAL
 	} 
