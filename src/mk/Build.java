@@ -1,21 +1,49 @@
 package mk;
 
-import static mk.Filetype.filetype;
-import static mk.Production.is;
+import static java.lang.reflect.Modifier.isStatic;
 
-public interface Build {
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
-	Filetype
-		__    = Filetype.VOID,
-		_java = filetype("java"),
-		_jar  = filetype("jar").build(),
-		_class= filetype("class").build();
-	
-	Folder
-		target = new Folder();
-	
-	Production
-		javac = is(_class).to(_java),
-		jar   = is(_jar).to(_class);
-	
+public final class Build {
+
+	public final Goal[] goals;
+	public final Module[] modules;
+	public final Production[] productions;
+
+	public Build(Goal[] goals, Module[] modules, Production[] productions) {
+		super();
+		this.goals = goals;
+		this.modules = modules;
+		this.productions = productions;
+	}
+
+	public Plan plan(String...goals) {
+
+		return null;
+	}
+
+	static Build from(Class<?> build) throws Exception {
+		List<Goal> goals = new ArrayList<>();
+		List<Module> modules = new ArrayList<>();
+		List<Production> productions = new ArrayList<>();
+		for (Field field : build.getDeclaredFields()) {
+			if (isStatic(field.getModifiers())) {
+				Class<?> type = field.getType();
+				Object value = field.get(null);
+				if (value instanceof Named) {
+					((Named) value).name(field.getName().replace('_', '-'));
+				}
+				if (type == Goal.class) {
+					goals.add((Goal) value);
+				} else if (type == Module.class) {
+					modules.add((Module) value);
+				} else if (type == Production.class) {
+					productions.add((Production) value);
+				}
+			}
+		}
+		return new Build(goals.toArray(new Goal[0]), modules.toArray(new Module[0]), productions.toArray(new Production[0]));
+	}
 }

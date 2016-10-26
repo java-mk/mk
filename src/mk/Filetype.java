@@ -54,5 +54,13 @@ public final class Filetype {
 		return origin == newOrigin ? this : new Filetype(extension, newOrigin);
 	}
 	
+	public boolean matches(File file) {
+		return file.name.endsWith(extension);
+	}
+
+	@Override
+	public String toString() {
+		return "."+extension+"["+origin.name().charAt(0)+"]";
+	}
 	
 }

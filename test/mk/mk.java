@@ -8,13 +8,17 @@ import static mk.Production.is;
 import static mk.Unit.unit;
 import mk.gen.Javac;
 
-public interface ExampleBuild extends Build {
+/**
+ * A example make file. All make file are named <code>mk</code>. 
+ */
+public interface mk extends mk_constants {
 
 	
 	Unit
-		my_domain_engine = unit("my.domain.engine"),
-		my_domain_web    = unit("my.domain.web"),
-		my_domain_db     = unit("my.domain.db");
+		my_domain        = unit("my","domain"),
+		my_domain_engine = my_domain.part("engine"),
+		my_domain_web    = my_domain.part("web"),
+		my_domain_db     = my_domain.part("db");
 	
 	FileSelector sources = allOf(_java);
 	Module 
@@ -35,7 +39,10 @@ public interface ExampleBuild extends Build {
 		compile 		= core.mirrored().as(_class).in(target),
 		compile_test 	= test.mirrored().as(_class).in(target),
 		compile_all 	= compile.and(compile_test),
-		jar 			= core.flattened().as(_jar).in(target);
+		jar 			= core.flattened().as(_jar).in(target),
+		
+		_default_       = compile;
+	
 		
 	// how to wire the case where e.g. a jar should be downloaded by a production that uses a list of URLs in a file as input?
 }

@@ -1,7 +1,5 @@
 package mk;
 
-import java.nio.file.Path;
-
 import mk.Goal.Location;
 
 /**
@@ -20,30 +18,30 @@ public final class Module {
 		/**
 		 * A "top level" module has a root folder and might contain submodules. 
 		 */
-		TOP, // ROOT 
+		SOURCE_FOLDER, 
 		
 		/**
 		 * A submodule is used to describe structures within the source that can be found in multiple top level modules.
 		 * For example the submodules within main or core reoccur in test.
 		 */
-		SUB // PKG, PACKAGE
+		UNIT
 	}
 	
-	private Path root;
+	private Folder base;
 	private Type type;
 
 	
 	public Goal colocated() {
-		return Goal.make(this, Location.COLOCATED);
+		return Goal.is(this, Location.COLOCATED);
 	}
 	
 	public Goal flattened() {
 		
-		return Goal.make(this, Location.FLATTENED);
+		return Goal.is(this, Location.FLATTENED);
 	}
 	
 	public Goal mirrored() {
-		return Goal.make(this, Location.MIRRORED);
+		return Goal.is(this, Location.MIRRORED);
 	}
 	
 	public Module uses(Module... dependencies) {
