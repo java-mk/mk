@@ -29,7 +29,7 @@ public interface ExampleBuild extends Build {
 	
 	Production 
 		javac = is(_java).to(_class).by(new Javac().source(8).target(6)),
-		wget  = is(filetype(".dep")).to(_jar.external());
+		wget  = is(filetype(".dep")).to(_jar);
 	
 	Goal
 		compile 		= core.mirrored().as(_class).in(target),
