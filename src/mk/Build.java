@@ -20,7 +20,9 @@ public final class Build {
 	}
 
 	public Plan plan(String...goals) {
-
+		// plan 1. goal -> [steps] + {goal names}
+		// skip all goals already in {goal names}, simple add further steps
+		// create plan with all steps
 		return null;
 	}
 
