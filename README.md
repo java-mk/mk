@@ -14,3 +14,24 @@ _A (hopefully) less insane build tool._
 * modular builds, no multi-project insanity
 * is about building not downloading the internet
 
+### Setup
+`mk` is not _installed_. 
+Download it and check it in as part of a project's sources.
+Don't worry: it is a small, stand-alone program.
+
+Create this structure: 
+
+    <project-home>
+    |- mk                      (downloaded run script)
+    |- mk.java                 (your project's build file)
+    |- .mk/classpath/          (root for running build)
+      |- mk.jar                (downloaded jar)
+      |- <extension>.jar       (put code for own processos here) 
+      |- <extension>.class     (put code for own processos here)
+        
+The run script simply runs main class in `mk.jar` that reads `mk.java` in the script location to understand and achieve the specified goals.
+
+### Usage
+```bash
+mk <options> <gaols>
+```
