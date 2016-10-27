@@ -24,10 +24,10 @@ Create this structure:
     <project-home>
     |- mk                      (downloaded run script)
     |- mk.java                 (your project's build file)
-    |- .mk/classpath/          (root for running build)
+    L- .mk/classpath/          (root for running build)
       |- mk.jar                (downloaded jar)
       |- <extension>.jar       (put code for own processos here) 
-      |- <extension>.class     (put code for own processos here)
+      L- <extension>.class     (put code for own processos here)
         
 The run script simply runs main class in `mk.jar` that reads `mk.java` in the script location to understand and achieve the specified goals.
 
