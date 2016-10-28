@@ -4,11 +4,12 @@ import static mk.Filetype.filetype;
 import static mk.Folder.folder;
 import static mk.Production.is;
 
-public interface mk_constants {
+public interface mk_build {
 
 	Filetype
 		__    = Filetype.VOID,
 		_java = filetype("java"),
+		_dep  = filetype("dep"),
 		_jar  = filetype("jar").build(),
 		_class= filetype("class").build();
 	

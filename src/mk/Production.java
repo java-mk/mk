@@ -1,6 +1,6 @@
 package mk;
 
-public final class Production {
+public final class Production extends Named {
 
 	public static Production is(Filetype source) {
 		return new Production(source, Filetype.VOID, null);

@@ -4,33 +4,25 @@ import mk.Goal.Location;
 
 /**
  * A section within the sources.
- *  
- * @author jan
  */
-public final class Module {
+public final class Module extends Named {
 
 	/**
 	 * A virtual module with nothing in it by definition.
 	 */
-	public static final Module EMPTY = new Module();
+	public static final Module EMPTY = new Module(FileSelector.noFile);
 	
-	public enum Type {
-		/**
-		 * A "top level" module has a root folder and might contain submodules. 
-		 */
-		SOURCE_FOLDER, 
-		
-		/**
-		 * A submodule is used to describe structures within the source that can be found in multiple top level modules.
-		 * For example the submodules within main or core reoccur in test.
-		 */
-		UNIT
+	public static Module module(FileSelector files) {
+		return new Module(files);
 	}
 	
-	private Folder base;
-	private Type type;
+	public final FileSelector files;
 
-	
+	private Module(FileSelector files) {
+		super();
+		this.files = files;
+	}
+
 	public Goal colocated() {
 		return Goal.is(this, Location.COLOCATED);
 	}
@@ -44,13 +36,9 @@ public final class Module {
 		return Goal.is(this, Location.MIRRORED);
 	}
 	
-	public Module uses(Module... dependencies) {
+	public Module includes(Module... dependencies) {
 		
 		return this; // FIXME
 	}
-	
-	public Module uses(FileSelector dependencies) {
-		
-		return this; // FIXME
-	}
+
 }

@@ -1,6 +1,7 @@
 package mk;
 
-import java.util.Arrays;
+import static java.lang.System.arraycopy;
+import static java.util.Arrays.copyOf;
 
 /**
  * A virtual file-set.
@@ -8,16 +9,6 @@ import java.util.Arrays;
  * @author jan
  */
 public final class FileSelector {
-
-	// can be
-	// * all files (of a type)
-	// * no file
-	// * a file name pattern (incl. path; of a type)
-	// * a list patterns
-	
-	// depth?
-	// base folder (all other filders are relative!)
-	// file type are always expressed using Filetype - not by using patterns! this is required so that planing can infer what inputs might be generated first.
 	
 	public static final class FilePattern {
 		
@@ -26,52 +17,65 @@ public final class FileSelector {
 		public Filetype type;
 		public int depth;
 		
+		FilePattern(Folder base, String path, Filetype type, int depth) {
+			super();
+			this.base = base;
+			this.path = path;
+			this.type = type;
+			this.depth = depth;
+		}
+
 		public boolean matches(File file) {
 			if (!type.matches(file))
 				return false;
-			
+			//TODO
 			return true;
+		}
+
+		public FilePattern withBase(Folder folder) {
+			return new FilePattern(folder, path, type, depth);
 		}
 	}
 	
 	public static final FileSelector noFile = new FileSelector(new FilePattern[0]);
 
 	public static FileSelector allOf(Filetype type) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	public static FileSelector allIn(Folder base) {
-		
-		return null;
+		return new FileSelector(new FilePattern(Folder.PROJECT_ROOT, "*", type, -1));
 	}
 	
 	public static FileSelector file(String name, Filetype extension) {
-		return null;
+		return new FileSelector(new FilePattern(Folder.PROJECT_ROOT, name, extension, 0));
 	}
 	
 	public FilePattern[] patterns;
 	
-	private FileSelector(FilePattern[] patterns) {
+	private FileSelector(FilePattern... patterns) {
 		super();
 		this.patterns = patterns;
 	}
 	
+	public FileSelector or(FileSelector other) {
+		FilePattern[] all = copyOf(patterns, patterns.length+other.patterns.length);
+		arraycopy(other.patterns, 0, all, patterns.length, other.patterns.length);
+		return new FileSelector(all);
+	}
+	
 	public FileSelector or(FilePattern pattern) {
-		FilePattern[] all = Arrays.copyOf(patterns, patterns.length+1);
+		FilePattern[] all = copyOf(patterns, patterns.length+1);
 		all[patterns.length] = pattern;
 		return new FileSelector(all);
 	}
 
 	public Module in(Folder folder) {
-		// TODO Auto-generated method stub
-		return null;
+		return Module.module(withBase(folder));
 	}
 
-	public Module in(Unit unit) {
-		// TODO Auto-generated method stub
-		return null;
+	private FileSelector withBase(Folder folder) {
+		FilePattern[] patterns = new FilePattern[this.patterns.length];
+		for (int i = 0; i < patterns.length; i++) {
+			patterns[i] = this.patterns[i].withBase(folder);
+		}
+		return new FileSelector(patterns);
 	}
-
 	
 }

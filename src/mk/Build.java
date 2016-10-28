@@ -5,6 +5,9 @@ import static java.lang.reflect.Modifier.isStatic;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+
+import mk.BuildFailure.NoSuchGoalException;
 
 public final class Build {
 
@@ -18,8 +21,16 @@ public final class Build {
 		this.modules = modules;
 		this.productions = productions;
 	}
+	
+	public Goal goal(String name) throws NoSuchGoalException {
+		for (Goal goal : goals)
+			if (goal.name().equals(name))
+				return goal;
+		throw new NoSuchGoalException(name);
+	}
 
 	public Plan plan(String...goals) {
+		
 		// plan 1. goal -> [steps] + {goal names}
 		// skip all goals already in {goal names}, simple add further steps
 		// create plan with all steps
