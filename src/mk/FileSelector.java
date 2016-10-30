@@ -1,7 +1,6 @@
 package mk;
 
-import static java.lang.System.arraycopy;
-import static java.util.Arrays.copyOf;
+import static mk.Module.module;
 import static mk.Util.append;
 import static mk.Util.concat;
 
@@ -34,7 +33,7 @@ public final class FileSelector {
 			return true;
 		}
 
-		public FilePattern withBase(Folder folder) {
+		public FilePattern basedIn(Folder folder) {
 			return new FilePattern(folder, path, type, depth);
 		}
 	}
@@ -65,13 +64,13 @@ public final class FileSelector {
 	}
 
 	public Module in(Folder folder) {
-		return Module.module(withBase(folder));
+		return module(basedIn(folder));
 	}
 
-	private FileSelector withBase(Folder folder) {
+	private FileSelector basedIn(Folder folder) {
 		FilePattern[] patterns = new FilePattern[this.patterns.length];
 		for (int i = 0; i < patterns.length; i++) {
-			patterns[i] = this.patterns[i].withBase(folder);
+			patterns[i] = this.patterns[i].basedIn(folder);
 		}
 		//TODO use lambda
 		return new FileSelector(patterns);

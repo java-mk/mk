@@ -1,6 +1,5 @@
 package mk;
 
-import static java.util.Arrays.copyOf;
 import static mk.Util.append;
 
 /**
@@ -27,7 +26,7 @@ public final class Goal extends Named {
 		BY_FOLDER
 	}
 
-	public static Goal is(Module source, Location target) {
+	public static Goal goal(Module source, Location target) {
 		return new Goal(Type.SIMPLE, source, Folder.PROJECT_ROOT, target, Filetype.VOID, Cleaning.BY_FILETYPE, EMPTY_SEQ);
 	}
 	

@@ -8,9 +8,14 @@ public final class Plan {
 		 * These may be run in parallel as they are independent from each other.
 		 */
 		public final Task[] tasks;
+		/**
+		 * The {@link Goal} the task {@link Step} and {@link Task}s have be created from/for.
+		 */
+		public final Goal goal;
 
-		public Step(Task[] tasks) {
+		public Step(Goal goal, Task[] tasks) {
 			super();
+			this.goal = goal;
 			this.tasks = tasks;
 		}
 		

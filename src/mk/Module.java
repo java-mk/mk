@@ -24,19 +24,19 @@ public final class Module extends Named {
 	}
 
 	public Goal colocated() {
-		return Goal.is(this, Location.COLOCATED);
+		return Goal.goal(this, Location.COLOCATED);
 	}
 	
 	public Goal flattened() {
 		
-		return Goal.is(this, Location.FLATTENED);
+		return Goal.goal(this, Location.FLATTENED);
 	}
 	
 	public Goal mirrored() {
-		return Goal.is(this, Location.MIRRORED);
+		return Goal.goal(this, Location.MIRRORED);
 	}
 	
-	public Module includes(Module... dependencies) {
+	public Module requires(Module... dependencies) {
 		
 		return this; // FIXME
 	}
