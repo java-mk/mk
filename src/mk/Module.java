@@ -14,7 +14,7 @@ public final class Module extends Named {
 	 */
 	public static final Module EMPTY = new Module(FileSelector.noFile, new Module[0]);
 	
-	public static Module module(FileSelector sources) {
+	static Module module(FileSelector sources) {
 		return new Module(sources, new Module[0]);
 	}
 	

@@ -12,6 +12,10 @@ import java.util.Set;
 import mk.BuildFailure.NoSuchGoalException;
 import mk.Plan.Step;
 
+/**
+ * A {@link Build} describes the facts of a build that can be used to yield a
+ * {@link Plan} that can be executed.
+ */
 public final class Build {
 
 	public final Goal[] goals;
@@ -55,14 +59,14 @@ public final class Build {
 	}
 	
 	static Build from(Class<?> build) throws Exception {
-		List<Goal> goals = new ArrayList<>();
-		List<Module> modules = new ArrayList<>();
-		List<Component> components = new ArrayList<>();
-		List<Production> productions = new ArrayList<>();
+		final List<Goal> goals = new ArrayList<>();
+		final List<Module> modules = new ArrayList<>();
+		final List<Component> components = new ArrayList<>();
+		final List<Production> productions = new ArrayList<>();
 		for (Field field : build.getDeclaredFields()) {
 			if (isStatic(field.getModifiers())) {
-				Class<?> type = field.getType();
-				Object value = field.get(null);
+				final Class<?> type = field.getType();
+				final Object value = field.get(null);
 				if (value instanceof Named) {
 					((Named) value).name(field.getName().replace('_', '-'));
 				}
@@ -77,6 +81,10 @@ public final class Build {
 				}
 			}
 		}
-		return new Build(goals.toArray(new Goal[0]), modules.toArray(new Module[0]), productions.toArray(new Production[0]), components.toArray(new Component[0]));
+		return new Build(
+				goals.toArray(new Goal[0]), 
+				modules.toArray(new Module[0]), 
+				productions.toArray(new Production[0]), 
+				components.toArray(new Component[0]));
 	}
 }

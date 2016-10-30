@@ -2,7 +2,7 @@ package mk;
 
 public final class Production extends Named {
 
-	public static Production procution(Filetype source, Filetype target) {
+	static Production procution(Filetype source, Filetype target) {
 		return new Production(source, target, null);
 	}
 	

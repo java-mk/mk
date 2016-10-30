@@ -13,7 +13,7 @@ public final class Component extends Named {
 	public final Component[] sourceDependencies;
 	public final FileSelector[] targetDependencies;
 	
-	public static Component component(Production process, String location) {
+	static Component component(Production process, String location) {
 		return new Component(process, location, new Component[0], new FileSelector[0]);
 	}
 
