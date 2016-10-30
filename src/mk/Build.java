@@ -54,8 +54,19 @@ public final class Build {
 	}
 	
 	public Plan.Step[] plan(Goal goal) {
-		
-		return null;
+		return plan(goal.source, new HashSet<>());
+	}
+	
+	public Plan.Step[] plan(Module module, Set<String> planedModules) {
+		List<Step> steps = new ArrayList<>();
+		for (Module dependency : module.dependencies) {
+			steps.addAll(asList(plan(dependency, planedModules)));
+		}
+		if (!planedModules.contains(module.name())) {
+			planedModules.add(module.name());
+			//TODO actually plan the module
+		}
+		return steps.toArray(new Step[0]);
 	}
 	
 	static Build from(Class<?> build) throws Exception {

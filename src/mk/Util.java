@@ -3,6 +3,9 @@ package mk;
 import static java.lang.System.arraycopy;
 import static java.util.Arrays.copyOf;
 
+/**
+ * All the cross-functional static helper methods go here. 
+ */
 public final class Util {
 
 	private Util() {

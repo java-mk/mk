@@ -2,7 +2,7 @@ package mk;
 
 public abstract class Named {
 
-	private String name;
+	public String name;
 	
 	public Named() {
 		this.name="<unnamed>";
