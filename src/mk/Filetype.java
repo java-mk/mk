@@ -63,4 +63,12 @@ public final class Filetype {
 		return "."+extension+"["+origin.name().charAt(0)+"]";
 	}
 	
+	public Component at(String location) {
+		return Component.at(this, location);
+	}
+	
+	public Production to(Filetype target) {
+		return Production.procution(this, target);
+	}
+	
 }

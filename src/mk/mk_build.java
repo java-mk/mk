@@ -2,7 +2,6 @@ package mk;
 
 import static mk.Filetype.filetype;
 import static mk.Folder.folder;
-import static mk.Production.is;
 
 public interface mk_build {
 
@@ -17,8 +16,8 @@ public interface mk_build {
 		target = folder("target");
 	
 	Production
-		javac = is(_class).to(_java),
-		jar   = is(_jar).to(_class);
+		javac = _class.to(_java),
+		jar   = _jar.to(_class);
 	
 	
 	// GOALS (where is what; or how does it look when the goal is reached)

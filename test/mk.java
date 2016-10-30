@@ -3,8 +3,6 @@
 import static mk.FileSelector.allOf;
 import static mk.FileSelector.file;
 import static mk.Folder.folder;
-import static mk.Production.is;
-import static mk.Component.at;
 import mk.gen.Javac;
 import mk.*;
 
@@ -20,13 +18,13 @@ public interface mk extends mk_build {
 		test   = sources.in(folder("src/test")).includes(main);
 	
 	Component
-		engine = at("my.domain.engine"),
-		web    = at("my.domain.web").includes(engine),
-		db     = at("my.domain.db").includes(engine).includes(file("libs/driver", _jar));	
+		engine = _java.at("my.domain.engine"),
+		web    = _java.at("my.domain.web").includes(engine),
+		db     = _java.at("my.domain.db").includes(engine).includes(file("libs/driver", _jar));	
 	
 	Production 
-		javac = is(_java).to(_class).by(new Javac().source(8).target(6)),
-		wget  = is(_dep).to(_jar);
+		javac = _java.to(_class).by(new Javac().source(8).target(6)),
+		wget  = _dep.to(_jar);
 	
 	Goal
 		compile 		= main.mirrored().as(_class).in(target),

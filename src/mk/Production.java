@@ -2,8 +2,8 @@ package mk;
 
 public final class Production extends Named {
 
-	public static Production is(Filetype source) {
-		return new Production(source, Filetype.VOID, null);
+	public static Production procution(Filetype source, Filetype target) {
+		return new Production(source, target, null);
 	}
 	
 	public final Filetype source;
@@ -17,10 +17,6 @@ public final class Production extends Named {
 		this.process = process;
 	}
 
-	public Production to(Filetype target) {
-		return new Production(source, target, process);
-	}
-	
 	public Production by(Process process) {
 		return new Production(source, target, process);
 	}

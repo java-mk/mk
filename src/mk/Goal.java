@@ -1,6 +1,7 @@
 package mk;
 
 import static java.util.Arrays.copyOf;
+import static mk.Util.append;
 
 /**
  * Data description of a target state.  
@@ -69,9 +70,7 @@ public final class Goal extends Named {
 	
 	public Goal and(Goal then) {
 		if (type == Type.SEQUENCE) {
-			Goal[] seq = copyOf(sequence, sequence.length+1);
-			seq[sequence.length] = then;
-			return new Goal(seq);
+			return new Goal(append(sequence, then));
 		}
 		return new Goal(this, then);
 	}

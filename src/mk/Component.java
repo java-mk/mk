@@ -1,36 +1,36 @@
 package mk;
 
+import static mk.Util.append;
+
 /**
  * A conceptual/functional unit within a structure source.  
  */
 public final class Component extends Named {
 
-	public static final Component VOID = new Component("");
-
+	public final Filetype source;
 	public final String location;
 	public final int level;
+	public final Component[] sourceDependencies;
+	public final FileSelector[] targetDependencies;
 	
-	public static Component at(String location) {
-		return at(location);
+	public static Component at(Filetype source, String location) {
+		return new Component(source, location, new Component[0], new FileSelector[0]);
 	}
 
-	private Component(String location) {
+	private Component(Filetype source, String location, Component[] sourceDependencies, FileSelector[] targetDependencies) {
+		this.source = source;
 		this.location = location;
 		this.level = location.split("\\.").length;
+		this.sourceDependencies = sourceDependencies;
+		this.targetDependencies = targetDependencies;
 	}
 	
 	public Component includes(Component dependency) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Component(source, location, append(sourceDependencies, dependency), targetDependencies);
 	}
 
 	public Component includes(FileSelector dependency) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Component(source, location, sourceDependencies, append(targetDependencies, dependency));
 	}
 
-	// use this as a more abstract concept of a package
-	// because a unit does not refer to one exact package but everything with it including subpackages. 
-	// also package is very java specific.
-	
 }

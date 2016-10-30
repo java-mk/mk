@@ -2,6 +2,8 @@ package mk;
 
 import static java.lang.System.arraycopy;
 import static java.util.Arrays.copyOf;
+import static mk.Util.append;
+import static mk.Util.concat;
 
 /**
  * A virtual file-set.
@@ -55,15 +57,11 @@ public final class FileSelector {
 	}
 	
 	public FileSelector or(FileSelector other) {
-		FilePattern[] all = copyOf(patterns, patterns.length+other.patterns.length);
-		arraycopy(other.patterns, 0, all, patterns.length, other.patterns.length);
-		return new FileSelector(all);
+		return new FileSelector(concat(patterns, other.patterns));
 	}
 	
 	public FileSelector or(FilePattern pattern) {
-		FilePattern[] all = copyOf(patterns, patterns.length+1);
-		all[patterns.length] = pattern;
-		return new FileSelector(all);
+		return new FileSelector(append(patterns, pattern));
 	}
 
 	public Module in(Folder folder) {
@@ -75,6 +73,7 @@ public final class FileSelector {
 		for (int i = 0; i < patterns.length; i++) {
 			patterns[i] = this.patterns[i].withBase(folder);
 		}
+		//TODO use lambda
 		return new FileSelector(patterns);
 	}
 	

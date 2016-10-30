@@ -4,6 +4,7 @@ import static java.lang.reflect.Modifier.isStatic;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -13,12 +14,14 @@ public final class Build {
 
 	public final Goal[] goals;
 	public final Module[] modules;
+	public final Component[] components;
 	public final Production[] productions;
 
-	public Build(Goal[] goals, Module[] modules, Production[] productions) {
+	public Build(Goal[] goals, Module[] modules, Component[] components, Production[] productions) {
 		super();
 		this.goals = goals;
 		this.modules = modules;
+		this.components = components;
 		this.productions = productions;
 	}
 	
@@ -40,6 +43,7 @@ public final class Build {
 	static Build from(Class<?> build) throws Exception {
 		List<Goal> goals = new ArrayList<>();
 		List<Module> modules = new ArrayList<>();
+		List<Component> components = new ArrayList<Component>();
 		List<Production> productions = new ArrayList<>();
 		for (Field field : build.getDeclaredFields()) {
 			if (isStatic(field.getModifiers())) {
@@ -54,9 +58,11 @@ public final class Build {
 					modules.add((Module) value);
 				} else if (type == Production.class) {
 					productions.add((Production) value);
+				} else if (type == Component.class) {
+					components.add((Component) value);
 				}
 			}
 		}
-		return new Build(goals.toArray(new Goal[0]), modules.toArray(new Module[0]), productions.toArray(new Production[0]));
+		return new Build(goals.toArray(new Goal[0]), modules.toArray(new Module[0]), components.toArray(new Component[0]), productions.toArray(new Production[0]));
 	}
 }
