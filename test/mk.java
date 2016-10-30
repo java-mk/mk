@@ -18,13 +18,13 @@ public interface mk extends mk_build {
 		test   = sources.in(folder("src/test")).requires(main);
 	
 	Production 
-		javac  = _java.to(_class).by(new Javac().source(8).target(6)),
-		wget   = _dep.to(_jar);
+		compilation = _java.to(_class).by(new Javac().source(8).target(6)),
+		downloading = _dep.to(_jar);
 	
 	Component
-		engine = javac.at("my.domain.engine"),
-		web    = javac.at("my.domain.web").requires(engine),
-		db     = javac.at("my.domain.db").requires(engine).requires(file("libs/driver", _jar));	
+		engine = compilation.at("my.domain.engine"),
+		web    = compilation.at("my.domain.web").requires(engine),
+		db     = compilation.at("my.domain.db").requires(engine).requires(file("libs/driver", _jar));	
 	
 	Goal
 		compile      = main.mirrored().as(_class).in(target),

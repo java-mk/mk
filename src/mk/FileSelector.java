@@ -72,7 +72,6 @@ public final class FileSelector {
 		for (int i = 0; i < patterns.length; i++) {
 			patterns[i] = this.patterns[i].basedIn(folder);
 		}
-		//TODO use lambda
 		return new FileSelector(patterns);
 	}
 	

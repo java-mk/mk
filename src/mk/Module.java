@@ -1,5 +1,7 @@
 package mk;
 
+import static mk.Goal.goal;
+import static mk.Util.concat;
 import mk.Goal.Location;
 
 /**
@@ -10,35 +12,36 @@ public final class Module extends Named {
 	/**
 	 * A virtual module with nothing in it by definition.
 	 */
-	public static final Module EMPTY = new Module(FileSelector.noFile);
+	public static final Module EMPTY = new Module(FileSelector.noFile, new Module[0]);
 	
-	public static Module module(FileSelector files) {
-		return new Module(files);
+	public static Module module(FileSelector sources) {
+		return new Module(sources, new Module[0]);
 	}
 	
-	public final FileSelector files;
+	public final FileSelector sources;
+	public final Module[] dependencies;
 
-	private Module(FileSelector files) {
+	private Module(FileSelector sources, Module[] dependencies) {
 		super();
-		this.files = files;
+		this.sources = sources;
+		this.dependencies = dependencies;
 	}
 
 	public Goal colocated() {
-		return Goal.goal(this, Location.COLOCATED);
+		return goal(this, Location.COLOCATED);
 	}
 	
 	public Goal flattened() {
 		
-		return Goal.goal(this, Location.FLATTENED);
+		return goal(this, Location.FLATTENED);
 	}
 	
 	public Goal mirrored() {
-		return Goal.goal(this, Location.MIRRORED);
+		return goal(this, Location.MIRRORED);
 	}
 	
 	public Module requires(Module... dependencies) {
-		
-		return this; // FIXME
+		return new Module(sources, concat(this.dependencies, dependencies));
 	}
 
 }
