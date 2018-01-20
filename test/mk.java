@@ -19,7 +19,8 @@ public interface mk extends mk_build {
 	
 	Production 
 		compilation = _java.to(_class).by(new Javac().source(8).target(6)),
-		downloading = _dep.to(_jar);
+		downloading = _dep.to(_jar).by(null),
+		packaging   = _class.to(_jar).by(null);
 	
 	Component
 		engine = compilation.at("my.domain.engine"),
@@ -27,9 +28,11 @@ public interface mk extends mk_build {
 		db     = compilation.at("my.domain.db").requires(engine).requires(file("libs/driver", _jar));	
 	
 	Goal
-		compile      = main.mirrored().as(_class).in(target),
-		compile_test = test.mirrored().as(_class).in(target),
+		compile      = main.mirrored().as(_class).in(target.X("classes")),
+		compile_test = test.mirrored().as(_class).in(target.X("classes")),
 		compile_all  = compile.and(compile_test),
 		jar          = main.flattened().as(_jar).in(target),
+		javadoc      = main.mirrored().as(_html).in(target.X("javadoc")),
+		ready_to_run = compile.and(jar),
 		_default_    = compile;
 }

@@ -31,4 +31,8 @@ public final class Plan {
 		this.steps = steps;
 	}
 
+	public Plan continuesWith(Plan other) {
+		//TODO concat...
+		return this;
+	}
 }

@@ -10,7 +10,8 @@ public interface mk_build {
 		_java = filetype("java"),
 		_dep  = filetype("dep"),
 		_jar  = filetype("jar").build(),
-		_class= filetype("class").build();
+		_class= filetype("class").build(),
+		_html = filetype("html").build();
 	
 	Folder
 		target = folder("target");

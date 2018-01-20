@@ -2,14 +2,20 @@ package mk;
 
 import static java.lang.reflect.Modifier.isStatic;
 import static java.util.Arrays.asList;
+import static mk.Util.filter;
+import static mk.Util.firstOrThrow;
+import static mk.Util.map;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import mk.BuildFailure.NoSuchGoalException;
+import mk.BuildFailure.UnknownProduction;
 import mk.Plan.Step;
 
 /**
@@ -31,42 +37,56 @@ public final class Build {
 		this.components = components;
 	}
 	
-	public Goal goal(String name) throws NoSuchGoalException {
-		for (Goal goal : goals)
-			if (goal.name().equals(name))
-				return goal;
-		throw new NoSuchGoalException(name);
+	public Goal goalFor(String name) throws NoSuchGoalException {
+		return firstOrThrow(goals, (Goal goal) -> { 
+			return goal.name().equals(name); }, 
+			new NoSuchGoalException(name));
 	}
+	
+	public Goal[] goalsFor(Module source) {
+		return filter(goals,(Goal g) -> { return g.source == source; });
+	}
+	
+	public Goal goalFor(Module source, Filetype output) {
+		return firstOrThrow(goals, (Goal g) -> { 
+			return g.source == source && g.output.equals(output); }, 
+			new NoSuchGoalException(source, output));
+	}
+	
+	public Component[] componentsFor(Production process) {
+		return filter(components, (Component c) -> { return c.process == process; });
+	}
+	
+	public Production production(Filetype from, Filetype to) throws UnknownProduction {
+		return firstOrThrow(productions, (Production p) -> 
+			{ return p.source.equals(from) && p.target.equals(to); }, 
+			new UnknownProduction(from, to));
+	}
+	
+	// even already planed goals must become be added as dependencies to those that are dependent on them
 
 	public Plan plan(String...goals) {
-		Set<String> planedGoals = new HashSet<>();
-		List<Step> steps = new ArrayList<>();
-		for (String goal : goals) {
-			if (!planedGoals.contains(goal)) {
-				Step[] goalSteps = plan(goal(goal));
-				steps.addAll(asList(goalSteps));
-				for (Step s : goalSteps) {
-					planedGoals.add(s.goal.name);
-				}
-			}
-		}
-		return new Plan(steps.toArray(new Step[0]));
+		return plan(map(goals, (String name) -> { return goalFor(name); }));
 	}
 	
-	public Plan.Step[] plan(Goal goal) {
-		return plan(goal.source, new HashSet<>());
+	public Plan plan(Goal...goals) {
+		LinkedHashMap<String, FileSelector> moduleDependencies = new LinkedHashMap<>();
+		for (Goal goal : goals) {
+			moduleDependenciesFor(goal, moduleDependencies);
+		}
+		for (Entry<String, FileSelector> e : moduleDependencies.entrySet()) { // order is now the order needed to run the goals
+			
+		}
+		return null;
 	}
 	
-	public Plan.Step[] plan(Module module, Set<String> planedModules) {
-		List<Step> steps = new ArrayList<>();
-		for (Module dependency : module.dependencies) {
-			steps.addAll(asList(plan(dependency, planedModules)));
+	private FileSelector moduleDependenciesFor(Goal goal, LinkedHashMap<String, FileSelector> knownModuleDependencies) {
+		FileSelector dependencies = knownModuleDependencies.get(goal.name);
+		if (dependencies == null) {
+			
+			knownModuleDependencies.put(goal.name, dependencies);
 		}
-		if (!planedModules.contains(module.name())) {
-			planedModules.add(module.name());
-			//TODO actually plan the module
-		}
-		return steps.toArray(new Step[0]);
+		return dependencies;
 	}
 	
 	static Build from(Class<?> build) throws Exception {

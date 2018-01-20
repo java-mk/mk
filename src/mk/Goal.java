@@ -77,5 +77,9 @@ public final class Goal extends Named {
 	public Goal clean(Cleaning policy) {
 		return new Goal(type, source, dest, target, output, policy, sequence);
 	}
+	
+	public FileSelector output() {
+		return FileSelector.allOf(output).withBase(dest);
+	}
 
 }

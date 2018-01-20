@@ -1,6 +1,8 @@
 package mk;
 
-public final class Filetype {
+import java.util.Objects;
+
+public final class Filetype implements Eq<Filetype> {
 
 	/**
 	 * In case the type is not yet determined, unknown.
@@ -9,7 +11,8 @@ public final class Filetype {
 
 	static enum Origin { 
 		/**
-		 * A source file, like <code>.java</code>
+		 * A source file, like <code>.java</code>.
+		 * Everything that is edited to produce final application code.
 		 */
 		SOURCE, 
 		/**
@@ -19,7 +22,7 @@ public final class Filetype {
 		BUILD,
 		/**
 		 * A file neither edited as a source not made present by a build goal 
-		 * but that are simply expected to exist. 
+		 * but that is simply expected to exist. 
 		 * For example external dependences checked into source control.
 		 */
 		EXTERNAL
@@ -65,6 +68,21 @@ public final class Filetype {
 	
 	public Production to(Filetype target) {
 		return Production.procution(this, target);
+	}
+	
+	@Override
+	public boolean equalTo(Filetype other) {
+		return origin == other.origin && extension.equals(other.extension);
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof Filetype && equalTo((Filetype) obj);
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(origin, extension);
 	}
 	
 }
